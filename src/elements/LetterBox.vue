@@ -1,12 +1,12 @@
 <template>
-    <secton class="letterbox">
-        <span
-            class="input"
-            v-if="letter"
-            v-bind:class="[ letter.inWord && !letter.correctSpace ? 'in-word' : '', letter.correctSpace ? 'correct' : '']"
-            v-bind:key="letter.letter"
-        >{{ letter.letter }}</span>
-    </secton>
+  <secton class="letterbox">
+    <span
+      class="output"
+      v-if="letter"
+      v-bind:class="[letter.inWord && !letter.correctSpace ? 'in-word' : '', letter.correctSpace ? 'correct' : '']"
+      v-bind:key="letter.letter"
+    >{{ letter.letter }}</span>
+  </secton>
 </template>
 
 <script>
@@ -31,35 +31,42 @@ export default {
 </script>
 
 <style lang="scss" >
-$delay: .3s;
+$delay: 0.3s;
 .letterbox {
-  height:100%;
+  height: 100%;
   width: 100%;
-    appearance: none;
-    border: 0;
-    border-radius: 4px;
-    background: #393939;
-    font-size: 58px;
-    color: #f8f8f8;
-    font-weight: 700;
-    text-align: center;
-    display: grid;
-    place-items: center;
+  appearance: none;
+  border: 0;
+  border-radius: 4px;
+  background: #393939;
+  font-size: 58px;
+  color: #f8f8f8;
+  font-weight: 700;
+  text-align: center;
+  display: grid;
+  place-items: center;
   &.guessed {
-      animation:flip-letter .7s ease-out forwards;
-    &.in-word {
-      color: yellow;
-    }
-    &.correct {
-      color: green;
+    animation: flip-letter 0.7s ease-out forwards;
+    .output {
+      transition-property: color;
+      transition-duration: 0.2s;
+      transition-delay: inherit;
+      transform:rotateY(-180deg);
+      &.in-word {
+        color: rgb(245, 245, 126);
+      }
+      &.correct {
+        color: rgb(98, 214, 98);
+      }
     }
   }
 }
 
 @for $n from 1 through 10 {
-    .letterbox:nth-of-type(#{$n + 1}){
-        animation-delay: $n * $delay;
-    }
+  .letterbox:nth-of-type(#{$n + 1}) {
+    animation-delay: $n * $delay;
+    transition-delay: $n  * $delay;
+  }
 }
 
 @keyframes flip-letter {
@@ -70,6 +77,4 @@ $delay: .3s;
     transform: rotateY(180deg);
   }
 }
-
-
 </style>
