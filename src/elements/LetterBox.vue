@@ -1,12 +1,12 @@
 <template>
-  <secton class="letterbox">
+  <div class="letterbox">
     <span
       class="output"
       v-if="letter"
       v-bind:class="[letter.inWord && !letter.correctSpace ? 'in-word' : '', letter.correctSpace ? 'correct' : '']"
       v-bind:key="letter.letter"
     >{{ letter.letter }}</span>
-  </secton>
+  </div>
 </template>
 
 <script>

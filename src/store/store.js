@@ -1,13 +1,11 @@
 import { createStore } from "vuex";
-import { getFiveLetterWord } from "../helpers/fiveLetterWords";
+import { getFiveLetterWord, words} from "../helpers/fiveLetterWords";
 import { getAlphabet, getInitialRows, getLetterObject } from '../helpers/helpers';
 export const store = createStore(
     {
         state() {
             return {
-                word: "SKEER",
-                guess: String,
-                error: String,
+                worcurrentGuessWordror: String,
                 hasError: false,
                 letterAmount: 5,
                 currentRowIndex: 0,
@@ -29,8 +27,10 @@ export const store = createStore(
             setGuess(state, guess) {
                 state.guess = guess;
             },
-            nextRow(state) {
+            guessRow(state) {
                 state.rows[state.currentRowIndex].guessed = true;
+            },
+            nextRow(state) {
                 state.currentRowIndex++;
             },
             setLetterCount(state, count) {
@@ -46,79 +46,49 @@ export const store = createStore(
         actions: {
             makeGuess({ commit, getters, dispatch }) {
                 let guess = getters.currentGuess;
-                let guessWord = guess.join('');
-                console.log(guessWord);
+                let guessWord = getters.currentGuessWord;
+
                 if (guess.length != this.state.letterAmount) {
                     console.warn("Guess does not match patter");
                     return false;
                 }
+                if (!words().includes(guessWord)){
+                    alert("das geen word");
+                    return false;
+                }
+                commit('guessRow');
+
                 for (let i = 0; i < guess.length; i++) {
                     let letterObject = guess[i];
                     const letter = letterObject.letter
                     this.state.alphabet[letter].guessed = true;
                     if (this.state.word.indexOf(letter) >= 0 && this.state.word[i] === letter) {
-                        console.log(letter + ' is in correct position');
                         this.state.alphabet[letter].inWord = true;
                         this.state.alphabet[letter].correctSpace = true;
                         letterObject.inWord = true;
                         letterObject.correctSpace = true;
                     } else if (this.state.word.indexOf(letter) >= 0) {
-                        console.log(letter + ' is in the word but different pos')
                         this.state.alphabet[letter].inWord = true;
                         letterObject.inWord = true;
                     }
-                    else {
-                        console.log(letter + ' is not in word');
-                    }
                 };
-
-                dispatch('checkVictory')
-                    .then(() => {
-                        alert("yay victory");
-                    })
-                    .catch((gameover) => {
-                        if (gameover) {
-                            alert("gameover");
-                        } else {
-                            commit('nextRow');
-                        }
-                    })
+                console.log(guessWord);
+                if (guessWord === getters.word) {
+                    setTimeout(() => {
+                        alert("win");
+                    }, getters.letterAmount - 1 * 700);
+                } else if (getters.currentRow.index === getters.rows.length - 1) {
+                    setTimeout(() => {
+                        alert('gameover');
+                    }, getters.letterAmount - 1 * 700);
+                }
+                else {
+                    commit('nextRow');
+                }
             },
-            checkVictory({ getters }) {
-                return new Promise((resolve, reject) => {
-                    console.log(getters.currentRow.index, getters.rows.length);
-                    const guess = getters.currentGuess.join('');
-                    if (guess.length !== getters.letterAmount) {
-                        reject(false);
-                    } else if (guess === getters.word) {
-                        resolve("win");
-                    } else if (getters.currentRow.index === getters.rows.length - 1){
-                        reject(true);
-                    } else {
-                        reject(false);
-                    }
-                });
-            },
-            checkGameOver({ getters }) {
-                return new Promise((resolve, reject) => {
-                    getters.currentRow.letters.forEach(letter => {
-                        if (!letter.correctSpace) {
-                            console.log("not correct letter");
-                            reject("Incorrect letter");
-                        }
-                    });
-                    if (this.state.currentRowIndex === getters.rows.length) {
-                        resolve("To many letters");
-                    } else {
-                        resolve("victory");
-
-                    }
-                })
-
-            },
-            backspace({commit, getters}) {
+            backspace({ commit, getters }) {
                 let guess = getters.currentGuess;
-                if(guess.length >= 0) {
+                if (guess.length >= 0) {
                     commit('removeLastGuess');
                 }
 
@@ -146,6 +116,15 @@ export const store = createStore(
             },
             currentGuess(state) {
                 return state.rows[state.currentRowIndex].letters
+            },
+            currentGuessWord(state) {
+                let word = '';
+                return state.rows[state.currentRowIndex].letters.reduce(
+                    (acc, item) => {
+                        acc += item.letter;
+                        return acc;
+                    }, word
+                )
             },
             rows(state) {
                 return state.rows;
