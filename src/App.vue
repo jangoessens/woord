@@ -19,8 +19,18 @@ export default {
 </script>
 
 <style>
+:root {
+  --dark-grey: #28262C;
+  --light-grey:#CFCEC9;
+  --very-light-grey: #ECECEA;
+  --green: #81E979;
+  --yellow:#F1BC41;
+}
+
+html {
+  font-family: 'Courier New', Courier, monospace;
+}
 .container {
-    padding: 0 16px;
     display: grid;
     grid-template-rows: 1fr 1fr;
     max-width: 466px;
@@ -30,5 +40,8 @@ export default {
     align-content: space-evenly;
     align-items: end;
     justify-items: stretch;
+    @media screen and min-width(360px) {
+      padding: 0 16px;  
+    }
 }
 </style>
