@@ -32,7 +32,8 @@ html {
 }
 .container {
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: minmax(1fr, 480px) auto;
+    grid-template-rows:  1fr auto;
     max-width: 466px;
     margin: auto;
     gap: 12px;
@@ -40,8 +41,5 @@ html {
     align-content: space-evenly;
     align-items: end;
     justify-items: stretch;
-    @media screen and min-width(360px) {
-      padding: 0 16px;  
-    }
 }
 </style>

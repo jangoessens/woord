@@ -38,6 +38,9 @@ export const store = createStore(
             },
             setWord(state, word) {
                 state.word = word;
+            },
+            removeLastGuess(state) {
+                state.rows[state.currentRowIndex].letters.pop();
             }
         },
         actions: {
@@ -111,6 +114,13 @@ export const store = createStore(
 
                     }
                 })
+
+            },
+            backspace({commit, getters}) {
+                let guess = getters.currentGuess;
+                if(guess.length >= 0) {
+                    commit('removeLastGuess');
+                }
 
             },
             registerInput({ commit, getters }, input) {

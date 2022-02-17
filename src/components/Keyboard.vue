@@ -29,7 +29,7 @@
                 </g>
             </svg>
         </span>
-        <span class="input back">
+        <span  @click="backspace" class="input back">
             <svg
                 version="1.1"
                 id="Capa_1"
@@ -74,6 +74,9 @@ export default {
         },
         makeGuess() {
             this.$store.dispatch('makeGuess');
+        },
+        backspace() {
+            this.$store.dispatch('backspace')
         }
     }
 }

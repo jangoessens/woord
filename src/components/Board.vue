@@ -25,7 +25,8 @@ export default {
     width: 100%;
     row-gap: 4px;
     height: 100%;
-
+    align-self: start;
+    max-height: 480px;
     &.row-5 {
         grid-template-rows: repeat(5, 1fr);
     }

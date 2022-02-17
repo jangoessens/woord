@@ -48,7 +48,7 @@ $delay: 0.3s;
   &.guessed {
     animation: flip-letter 0.7s ease-out forwards;
     .output {
-      transition-property: color;
+      transition-property: color transform;
       transition-duration: 0.2s;
       transition-delay: inherit;
       transform:rotateY(-180deg);
