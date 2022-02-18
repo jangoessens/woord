@@ -46,11 +46,12 @@ $delay: 0.3s;
   display: grid;
   place-items: center;
   &.guessed {
-    animation: flip-letter 0.7s ease-out forwards;
+    animation: flip-letter 1s ease forwards;
     .output {
       transition-property: color transform;
-      transition-duration: 0.2s;
+      transition-duration: 1s;
       transition-delay: inherit;
+      transition-timing-function: ease;
       transform:rotateY(-180deg);
       &.in-word {
         color: rgb(245, 245, 126);
