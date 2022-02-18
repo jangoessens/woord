@@ -30,6 +30,13 @@ export default {
 html {
   font-family: 'Courier New', Courier, monospace;
 }
+#app {
+  position:fixed;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+}
 .container {
     display: grid;
     grid-template-rows: minmax(1fr, 480px) auto;
