@@ -72,15 +72,14 @@ export const store = createStore(
                         letterObject.inWord = true;
                     }
                 };
-                console.log(guessWord);
-                if (guessWord === getters.word) {
+                if (guessWord === this.state.word) {
                     setTimeout(() => {
                         alert("win");
-                    }, getters.letterAmount - 1 * 700);
+                    }, (getters.letterAmount - 2) * 700);
                 } else if (getters.currentRow.index === getters.rows.length - 1) {
                     setTimeout(() => {
                         alert('gameover');
-                    }, getters.letterAmount - 1 * 700);
+                    }, ( getters.letterAmount - 2)* 700);
                 }
                 else {
                     commit('nextRow');
